@@ -1,1 +1,17 @@
-[{}]
+{
+    "_id": "6297efa3452bd58593cffdec181b47fe",
+    "_rev": "1-765ab597d628a383b075f76ca72987cd",
+    "game": "ESV: Skyrim",
+    "genre": "RPG",
+    "article_no": "14000",
+    "developers": "Bethesda Game Studios",
+    "online": "no",
+    "platform": {
+      "PS4": true,
+      "Xbox_One": true,
+      "Switch": true,
+      "PS3": true,
+      "Xbox360": true,
+      "PC": true
+    }
+  }
