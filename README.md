@@ -14,7 +14,7 @@ for the community.
 
 ## Installation
 
-***NOTE, YOU CAN INSTALL THE PROJECT IF YOU WANT THE CODE IN YOUR COMPUTER BUT [THERE IS A PAGE WITH](https://gawi-meki-timely-wildebeest-vr.mybluemix.net/) THE APP RUNNING***
+_***NOTE:***_ _YOU CAN INSTALL THE PROJECT IF YOU WANT THE CODE IN YOUR COMPUTER BUT ***[THERE IS A PAGE WITH](https://gawi-meki-timely-wildebeest-vr.mybluemix.net/)*** THE APP RUNNING_
 
 Before installing the project, make sure you have [NodeJS](https://nodejs.org/en/download/) installed
 
