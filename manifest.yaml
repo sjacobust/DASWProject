@@ -1,0 +1,4 @@
+applications:
+- name: Gawi Meki
+  random-route: true
+  memory: 2656M
