@@ -1,0 +1,32 @@
+{
+  "name": "daswproject",
+  "version": "1.0.0",
+  "description": "DASW project for Fall 2020",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OverripeWings3/DASWProject.git"
+  },
+  "keywords": [
+    "project",
+    "js",
+    "html",
+    "css",
+    "web",
+    "app"
+  ],
+  "author": "Santiago Jacobus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OverripeWings3/DASWProject/issues"
+  },
+  "homepage": "https://github.com/OverripeWings3/DASWProject#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "yes": "^1.1.1"
+  }
+}
