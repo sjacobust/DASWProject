@@ -6,7 +6,7 @@ const usersCtrl = new UsersController();
 const router = express();
 
 
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
     res.status(404).send("Page not found");
 })
 
