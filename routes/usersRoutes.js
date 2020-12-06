@@ -5,7 +5,12 @@ const UsersController = require('../controllers/usersController');
 const usersCtrl = new UsersController();
 const router = express();
 
-router.post('/', (req, res) => {
+
+router.get('/', (req, res) => {
+    res.status(404).send("Page not found");
+})
+
+router.post('/register', (req, res) => {
     let b = req.body;
     if (b.username && b.nombre && b.apellidos && b.email && b.fecha) {
         usersCtrl.getUniqueUser(b.nombre, b.apellidos, b.email, (u)=>{
@@ -14,21 +19,25 @@ router.post('/', (req, res) => {
                 res.status(400).send('user already exists');
             } else {
                 usersCtrl.insertUser(b,(user)=>{
+                    console.log("User Registered");
                     res.status(201).send(user);
                 });
             }
         });
     } else {
         res.status(400).send('missing arguments');
+        console.log("Missing arguments");
+        console.log(b);
+
     }
 });
 
-router.get('/:username', (req,res)=>{
+router.get('/profile/:username', (req,res)=>{
     // let userCtrl = new UsersController();
     // let users = userCtrl.getList();
     if(req.params.username){
         // users = users.find(ele=> ele.email === req.params.email);
-        usersCtrl.getUserByEmail(req.params.username,(users)=>{
+        usersCtrl.getUserByUsername(req.params.username,(users)=>{
             if(users){
                 res.send(users);
             }else{

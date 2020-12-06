@@ -1,10 +1,10 @@
 {
-    "apikey": "W60n3LKNAT-hJAKvTJJdV6SE1izCA_rjrLpoTgCIHqX7",
-    "host": "5c31e890-c4a0-4a1f-9c8c-06578b568ad0-bluemix.cloudantnosqldb.appdomain.cloud",
-    "iam_apikey_description": "Auto-generated for key 6409e24a-af93-48d9-abca-02db7492d9b6",
-    "iam_apikey_name": "ManagerCredentials-1",
-    "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-    "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/164aebfe4cbd4c74a4a6bf288af26986::serviceid:ServiceId-0f537376-592b-409b-a198-6c44817fea2a",
-    "url": "https://5c31e890-c4a0-4a1f-9c8c-06578b568ad0-bluemix.cloudantnosqldb.appdomain.cloud",
-    "username": "5c31e890-c4a0-4a1f-9c8c-06578b568ad0-bluemix"
-  }
+  "apikey": "BXXkGeMMmtl8I1brIrvwR6odDVsFDo4B8uuO3PzaRAmZ",
+  "host": "5c31e890-c4a0-4a1f-9c8c-06578b568ad0-bluemix.cloudantnosqldb.appdomain.cloud",
+  "iam_apikey_description": "Auto-generated for key 6c7aa522-679c-4e95-bb29-02859520222c",
+  "iam_apikey_name": "ManagerCredentials-1",
+  "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+  "iam_serviceid_crn": "crn:v1:bluemix:public:iam-identity::a/164aebfe4cbd4c74a4a6bf288af26986::serviceid:ServiceId-174b78c5-aa45-4cb0-808a-b2fef0f2c338",
+  "url": "https://5c31e890-c4a0-4a1f-9c8c-06578b568ad0-bluemix.cloudantnosqldb.appdomain.cloud",
+  "username": "5c31e890-c4a0-4a1f-9c8c-06578b568ad0-bluemix"
+}

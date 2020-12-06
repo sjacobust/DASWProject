@@ -136,38 +136,41 @@
               <div class="form-group">
                 <div class="md-form">
                   <div class="row mb-3">
-                    <div class="col-6"><input class="form-control" type="text" name="Nombre" placeholder="Name"
+                    <div class="col-6"><input class="form-control" id="registerName" type="text" name="nombre" placeholder="Name"
                         required></div>
-                    <div class="col-6"><input class="form-control" type="text" name="Apellido" placeholder="Last Name"
+                    <div class="col-6"><input class="form-control" id="registerLastname" type="text" name="apellidos" placeholder="Last Name"
                         required></div>
                   </div>
 
                   <div class="row mb-3">
                     <div class="col">
-                      <input class="form-control" type="email" name="Correo" placeholder="E-mail" required>
+                      <input class="form-control" type="text" id="registerUsername" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="col">
+                      <input class="form-control" type="email" id="registerEmail" name="email" placeholder="E-mail" required>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <div class="col">
-                      <input class="form-control" type="password" name="passwd" placeholder="Password"
+                      <input class="form-control" type="password" id="registerPassword" name="password" placeholder="Password"
                         pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
                     </div>
 
                   </div>
                   <div class="row mb-3">
                     <div class="col">
-                      <input class="form-control" type="password" placeholder="Confirm Password"
+                      <input class="form-control" type="password" id="confirmPassword" placeholder="Confirm Password"
                         pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
                     </div>
 
                   </div>
                   <div class="row mb-3">
                     <div class="col">
-                      <input class="form-control" type="date" name="date" required>
+                      <input class="form-control" type="date" id="registerDate" name="fecha" required>
                     </div>
 
                   </div>
-                  <button type="submit" class="btn btn-success">Sign Up</button>
+                  <button type="submit" class="btn btn-success" id="signUpBtn">Sign Up</button>
                   <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
               </div>

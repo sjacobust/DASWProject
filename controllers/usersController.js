@@ -4,7 +4,7 @@ const USERS_DB = require('../data/users.json');
 const CloudantSDK = require('@cloudant/cloudant');
 const CLOUDANT_CREDS = require('../localdev-config.json');
 const cloudant = new CloudantSDK(CLOUDANT_CREDS.url);
-const USERS_CLOUDANT_DB = cloudant.db.use('users');
+const USERS_CLOUDANT_DB = cloudant.db.use('users-db');
 let CURRENT_ID = 0;
 
 
@@ -221,6 +221,34 @@ class UsersController {
             }
         });
     }
+    getUserByUsername(username,cbOk){
+        // let user = USERS_DB.find(ele=>ele.email ===email);
+        // return user;
+        const q = {
+            selector:{
+                username:{"$eq":username}
+            }
+        }
+        USERS_CLOUDANT_DB.find(q).then((docs)=>{
+            if(docs.docs.length>0){
+                //regresar resultado..
+                let user = {
+                    nombre: docs.docs[0].nombre,
+                    apellidos: docs.docs[0].apellidos,
+                    username: docs.docs[0].username,
+                    email: docs.docs[0].email,
+                    password: docs.docs[0].password,
+                    fecha: docs.docs[0].fecha,
+                    uid: docs.docs[0]._id,
+                    rev: docs.docs[0]._rev
+                }
+                cbOk(user);
+            }else{
+                cbOk();
+            }
+        });
+    }
+
 }
 
 module.exports = UsersController;

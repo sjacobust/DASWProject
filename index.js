@@ -26,7 +26,7 @@ app.use(cors());
 
 // Routes 
 
-app.use('/api/profile', userRouter)
+app.use('/api/users', userRouter)
 app.use('/api/genreList', genreRouter);
 app.use('/api/gameList', gameListRouter);
 
