@@ -8,34 +8,69 @@ const HTTTPMethods = {
 const APIURL = window.location.protocol+'//'+window.location.host+'/api';
 
 function sendHTTPRequest(urlAPI, data, method, cbOK, cbError, authToken) {
-    // // 1. Crear XMLHttpRequest object
-    // let xhr = new XMLHttpRequest();
-    // // 2. Configurar:  PUT actualizar archivo
-    // xhr.open(method, urlAPI);
-    // // 3. indicar tipo de datos JSON
-    // xhr.setRequestHeader('Content-Type', 'application/json');
-    // if (authToken)
-    //     xhr.setRequestHeader('x-auth-user', authToken);
-    // // 4. Enviar solicitud al servidor
-    // xhr.send(data);
-    // // 5. Una vez recibida la respuesta del servidor
-    // xhr.onload = function () {
-    //     if (xhr.status != 200 && xhr.status != 201) { // analizar el estatus de la respuesta HTTP 
-    //         // Ocurrió un error
-    //         cbError(xhr.status + ': ' + xhr.statusText);
-    //     } else {
-    //         console.log(xhr.responseText); // Significa que fue exitoso
-    //         cbOK({
-    //             status: xhr.status,
-    //             data: xhr.responseText
-    //         });
-    //     }
-    // };
+    // 1. Crear XMLHttpRequest object
+    let xhr = new XMLHttpRequest();
+    // 2. Configurar:  PUT actualizar archivo
+    xhr.open(method, urlAPI);
+    // 3. indicar tipo de datos JSON
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    if (authToken)
+        xhr.setRequestHeader('x-auth-user', authToken);
+    // 4. Enviar solicitud al servidor
+    xhr.send(data);
+    // 5. Una vez recibida la respuesta del servidor
+    xhr.onload = function () {
+        if (xhr.status != 200 && xhr.status != 201) { // analizar el estatus de la respuesta HTTP 
+            // Ocurrió un error
+            cbError(xhr.status + ': ' + xhr.statusText);
+        } else {
+            console.log(xhr.responseText); // Significa que fue exitoso
+            cbOK({
+                status: xhr.status,
+                data: xhr.responseText
+            });
+        }
+    };
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    //agrega tu codigo de asignación de eventos...
+
+    // sendHTTPRequest(urlAPI, data, method, cbOK, cbError, authToken)
+
+    $('#modalRegistro').on('show.bs.modal', function (event) {
+        // console.log(event.relatedTarget);
+        //agrega tu codigo...
+        
+        $('#signUpBtn').on("click", () => {
+            const payload = JSON.stringify({
+                'nombre': $('#registerName').val(),
+                'apellidos': $('#registerLastname').val(),
+                'username': $('#registerUsername').val(),
+                'email': $('#registerEmail').val(),
+                'password': $('#registerPassword').val(),
+                'fecha': $('#registerDate').val(),
+            });
+            console.log(payload)
+            
+                let url = APIURL + '/users/register';
+                console.log(url);
+                sendHTTPRequest(url, payload, HTTTPMethods.post, () => {
+                    console.log("Usuario Registrado");
+                }, () => {
+                    console.error("Usuario no registrado");
+                }, null);
+            
+        })
+
+    });
+
+});
 
 
 
 $(document).ready(function () {
+
     $("#gamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
         let url = APIURL+"/gameList";
@@ -84,6 +119,7 @@ $(document).ready(function () {
             console.error("Something Went Wrong");
         }, "");
     });
+
 });
 
 
