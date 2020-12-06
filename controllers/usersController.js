@@ -50,11 +50,10 @@ class UsersController {
         let updatee = {
             nombre: user.nombre,
             apellidos: user.apellidos,
+            username: docs.docs[0].username,
             email: user.email,
             password: user.password,
             fecha: user.fecha,
-            sexo: user.sexo,
-            image: user.image,
             _id: user.uid,
             _rev: user.rev,
             token: user.token
@@ -139,11 +138,10 @@ class UsersController {
                 let user = {
                     nombre: docs.docs[0].nombre,
                     apellidos: docs.docs[0].apellidos,
+                    username: docs.docs[0].username,
                     email: docs.docs[0].email,
                     password: docs.docs[0].password,
                     fecha: docs.docs[0].fecha,
-                    sexo: docs.docs[0].sexo,
-                    image: docs.docs[0].image,
                     uid: docs.docs[0]._id,
                     rev: docs.docs[0]._rev
                 }
@@ -177,11 +175,10 @@ class UsersController {
                 let user = {
                     nombre: docs.docs[0].nombre,
                     apellidos: docs.docs[0].apellidos,
+                    username: docs.docs[0].username,
                     email: docs.docs[0].email,
                     password: docs.docs[0].password,
                     fecha: docs.docs[0].fecha,
-                    sexo: docs.docs[0].sexo,
-                    image: docs.docs[0].image,
                     uid: docs.docs[0]._id,
                     rev: docs.docs[0]._rev
                 }
@@ -211,11 +208,10 @@ class UsersController {
                 let user = {
                     nombre: docs.docs[0].nombre,
                     apellidos: docs.docs[0].apellidos,
+                    username: docs.docs[0].username,
                     email: docs.docs[0].email,
                     password: docs.docs[0].password,
                     fecha: docs.docs[0].fecha,
-                    sexo: docs.docs[0].sexo,
-                    image: docs.docs[0].image,
                     uid: docs.docs[0]._id,
                     rev: docs.docs[0]._rev
                 }
