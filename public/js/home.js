@@ -56,8 +56,8 @@ $(document).ready(function () {
     });
     $("#rpgGamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
-        let nfilter = 'rpg';
-        let url = APIURL+"/gameList?page=1&limit=3"+nfilter;
+        let gfilter = 'rpg';
+        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
         }, () => {
@@ -66,8 +66,8 @@ $(document).ready(function () {
     });
     $("#fpsGamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
-        let nfilter = 'fps';
-        let url = APIURL+"/gameList?page=1&limit=3"+nfilter;
+        let gfilter = 'fps';
+        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
         }, () => {
@@ -76,8 +76,8 @@ $(document).ready(function () {
     });
     $("#mobaGamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
-        let nfilter = 'moba';
-        let url = APIURL+"/gameList?page=1&limit=3"+nfilter;
+        let gfilter = 'moba';
+        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
         }, () => {
