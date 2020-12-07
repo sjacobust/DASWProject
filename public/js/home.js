@@ -76,10 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(url);
                 sendHTTPRequest(url, payload, HTTTPMethods.post, () => {
                     console.log("Bienvenido");
+                    url = APIURL + '/articles';
+                    $("#mainDiv").load("./articleList.html");
+                    sendHTTPRequest()
                 }, () => {
                     console.error("Usuario no registrado");
                 }, null);
-                $("#mainDiv").load("./articleList.html");
+                
             
         })
 

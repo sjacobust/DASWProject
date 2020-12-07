@@ -13,6 +13,7 @@ const SECRET_JWT = process.env.SECRET_JWT || 'h@la123Cr@yola';
 const genreRouter = require('./routes/genreRoutes');
 const gameListRouter = require('./routes/gameListRoutes');
 const userRouter = require('./routes/usersRoutes');
+const articleRouter = require('./routes/articlesRouters')
 
 // Controllers
 
@@ -26,7 +27,8 @@ app.use(cors());
 
 // Routes 
 
-app.use('/api/users', userRouter)
+app.use('/api/users', userRouter);
+app.use('api/articles', articleRouter)
 app.use('/api/genreList', genreRouter);
 app.use('/api/gameList', gameListRouter);
 
