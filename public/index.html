@@ -45,14 +45,27 @@
             <a class="dropdown-item" href="#" id="genresLink">More Genres</a>
           </div>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Top 5 Games
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" id="amongUsLink">Among Us</a>
+            <a class="dropdown-item" href="#" id="CODLink">COD: Cold War</a>
+            <a class="dropdown-item" href="#" id="SkryimLink">Skyrim</a>
+            <a class="dropdown-item" href="#" id="LoLLink">LoL</a>
+            <a class="dropdown-item" href="#" id="fallGuysLink">Fall Guys</a>
+          </div>  
+        </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Articles</a>
+          <a class="nav-link" href="#" id="articlesLink">Articles</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#modalLogin" data-toggle="modal">Login</a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0 ml-auto">
+      <form class="form-inline ml-auto">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
       </form>
@@ -60,17 +73,9 @@
     </div>
   </nav>
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-2 sidebar bg-light-green">
-        <div class="sidebar-sticky pt-3">
-          <p class="h4 ml-auto" style="color: white;">Top Games</p>
-          <nav class="nav nav-tabs flex-column">
-            <a class="nav-link align-self-end" href="#">Among Us</a>
-          </nav>
-        </div>
-      </div>
-      <div class="main ml-sm-auto col-lg-10 bg-green d-flex align-items-center min-vh-100 vh-100" id="mainDiv">
+  <div class="container-fluid my-4">
+    <div class="row d-flex align-self-center justify-content-center">
+      <div class="main col m-auto bg-green p-4 d-flex align-items-center" id="mainDiv">
         <div>
           <p>placeholder div</p>
         </div>
@@ -163,7 +168,12 @@
                   </div>
                   <div class="row mb-3">
                     <div class="col">
-                      <input class="form-control" type="date" id="registerDate" name="fecha" required>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="registerDate">Birthday</span>
+                        </div>
+                        <input class="form-control" type="date" name="birthday" aria-label="Users's birthday" aria-describedby="registerDate">
+                      </div>
                     </div>
 
                   </div>

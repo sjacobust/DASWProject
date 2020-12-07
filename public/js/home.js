@@ -156,6 +156,18 @@ $(document).ready(function () {
         $("#mobaGamesLink").addClass("active");
         $("#mobaGamesLink").siblings().removeClass("active");
     });
+    $("#articlesLink").on("click", function () {
+        $("#mainDiv").load("./articleList.html");
+        let gfilter = 'moba';
+        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
+        sendHTTPRequest(url, "", HTTTPMethods.get, () => {
+            console.log("Loaded");
+        }, () => {
+            console.error("Something Went Wrong");
+        }, "");
+        $("#articlesLink").parent().addClass("active");
+        $("#articlesLink").parent().siblings().removeClass("active");
+    });
 
 
 
