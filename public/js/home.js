@@ -238,4 +238,14 @@ $("#mainDiv").on('click', "#fpsGamesLink", () => {
     }, () => {
         console.error("Something Went Wrong");
     }, "");
+});
+
+$("#mainDiv").on('click', "#newArticleBtn", () => {
+    $("#mainDiv").load("./newArticle.html");
+    sendHTTPRequest(url, "", HTTTPMethods.get, () => {
+        console.log("Loaded");
+    }, () => {
+        console.error("Something Went Wrong");
+    }, "");
 })
+
