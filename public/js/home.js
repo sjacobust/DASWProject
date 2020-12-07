@@ -5,7 +5,25 @@ const HTTTPMethods = {
     "get": "GET",
     "delete": "DELETE"
 }
-const APIURL = window.location.protocol+'//'+window.location.host+'/api';
+
+
+const HTTPStatusCodes = {
+    "notFound": {
+        "code": 404,
+        "page": "",
+    },
+    "forbidden": {
+        "code": 403,
+        "page": "",
+    },
+    "unauthorized": {
+        "code": 401,
+        "page": "",
+    },
+}
+
+
+const APIURL = window.location.protocol + '//' + window.location.host + '/api';
 
 function sendHTTPRequest(urlAPI, data, method, cbOK, cbError, authToken) {
     // 1. Crear XMLHttpRequest object
@@ -22,7 +40,7 @@ function sendHTTPRequest(urlAPI, data, method, cbOK, cbError, authToken) {
     xhr.onload = function () {
         if (xhr.status != 200 && xhr.status != 201) { // analizar el estatus de la respuesta HTTP 
             // Ocurrió un error
-            cbError(xhr.status + ': ' + xhr.statusText);
+            cbError(xhr.status + ': ' + xhr.statusText, xhr.status);
         } else {
             console.log(xhr.responseText); // Significa que fue exitoso
             cbOK({
@@ -38,10 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // sendHTTPRequest(urlAPI, data, method, cbOK, cbError, authToken)
 
+
     $('#modalRegistro').on('show.bs.modal', function (event) {
         // console.log(event.relatedTarget);
         //agrega tu codigo...
-        
+
         $('#signUpBtn').on("click", () => {
             const payload = JSON.stringify({
                 'nombre': $('#registerName').val(),
@@ -50,48 +69,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 'email': $('#registerEmail').val(),
                 'password': $('#registerPassword').val(),
                 'fecha': $('#registerDate').val(),
-            });            
-                let url = APIURL + '/users/register';
-                console.log(url);
-                sendHTTPRequest(url, payload, HTTTPMethods.post, () => {
-                    console.log("Usuario Registrado");
-                }, () => {
-                    console.error("Usuario no registrado");
-                }, null);
-            
+            });
+            let url = APIURL + '/users/register';
+            console.log(url);
+            sendHTTPRequest(url, payload, HTTTPMethods.post, (response) => {
+                console.log(`Usuario no registrado ${response}`);
+            }, (response) => {
+                console.error(`Usuario no registrado ${response}`);
+            }, null);
+
         })
 
     });
 
     $('#modalLogin').on('show.bs.modal', function (event) {
-        // console.log(event.relatedTarget);
-        //agrega tu codigo...
-        
-        $('#loginBtn').on("click", () => {
+        console.log("Opened Modal");
+        $('#loginBtn').click(() => {
+            console.log("clicked");
             const payload = JSON.stringify({
-                'email': $('#registerEmail').val(),
-                'password': $('#registerPassword').val()
-            });            
-                let url = APIURL + '/login';
-                console.log(url);
-                sendHTTPRequest(url, payload, HTTTPMethods.post, () => {
-                    console.log("Bienvenido");
-                    url = APIURL + '/articles';
-                    $("#mainDiv").load("./articleList.html");
-                    sendHTTPRequest()
+                'email': $('#emailId').val(),
+                'password': $('#passwordID').val(),
+            });
+            let url = APIURL + '/login';
+            console.log(url);
+            sendHTTPRequest(url, payload, HTTTPMethods.post, (response) => {
+                console.log(`Bienvenido`);
+                $("#mainDiv").load("./articleList.html");
+                let url = APIURL + "/articles";
+                sendHTTPRequest(url, "", HTTTPMethods.get, () => {
+                    console.log("Loaded");
+                    $('#modalLogin').modal('toggle');
                 }, () => {
-                    console.error("Usuario no registrado");
-                }, null);
-                
-            
+                    console.error("Something Went Wrong");
+                }, "");
+
+                $("#articlesLink").parent().addClass("active");
+                $("#articlesLink").parent().siblings().removeClass("active");
+
+            }, (response) => {
+                console.error(`Usuario no registrado ${response}`);
+            }, null);
+
         })
 
     });
 
 
 });
-
-
 
 $(document).ready(function () {
 
@@ -103,7 +127,7 @@ $(document).ready(function () {
 
     $("#gamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
-        let url = APIURL+"/gameList";
+        let url = APIURL + "/gameList";
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
         }, () => {
@@ -113,7 +137,7 @@ $(document).ready(function () {
         $("#gamesLink").siblings().removeClass("active");
     });
     $("#genresLink").on("click", function () {
-        let url = APIURL+"/genreList";
+        let url = APIURL + "/genreList";
         $("#mainDiv").load("./genreList.html");
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
@@ -126,7 +150,7 @@ $(document).ready(function () {
     $("#rpgGamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
         let gfilter = 'rpg';
-        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
+        let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
         }, () => {
@@ -138,7 +162,7 @@ $(document).ready(function () {
     $("#fpsGamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
         let gfilter = 'fps';
-        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
+        let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
         }, () => {
@@ -150,7 +174,7 @@ $(document).ready(function () {
     $("#mobaGamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
         let gfilter = 'moba';
-        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
+        let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
         }, () => {
@@ -161,8 +185,7 @@ $(document).ready(function () {
     });
     $("#articlesLink").on("click", function () {
         $("#mainDiv").load("./articleList.html");
-        let gfilter = 'moba';
-        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
+        let url = APIURL + "/articles";
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
         }, () => {
@@ -177,44 +200,40 @@ $(document).ready(function () {
 });
 
 
-$("#mainDiv").on('click', () => {
-    $("#rpgGamesLink").on("click", function () {
-        $("#mainDiv").load("./gameList.html");
-        let gfilter = 'rpg';
-        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
-        sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-            console.log("Loaded");
-        }, () => {
-            console.error("Something Went Wrong");
-        }, "");
-    });
-    $("#fpsGamesLink").on("click", function () {
-        $("#mainDiv").load("./gameList.html");
-        let gfilter = 'fps';
-        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
-        sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-            console.log("Loaded");
-        }, () => {
-            console.error("Something Went Wrong");
-        }, "");
-    });
-    $("#mobaGamesLink").on("click", function () {
-        $("#mainDiv").load("./gameList.html");
-        let gfilter = 'moba';
-        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
-        sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-            console.log("Loaded");
-        }, () => {
-            console.error("Something Went Wrong");
-        }, "");
-    });
-})
+$("#mainDiv").on('click', "#rpgGamesLink", () => {
+    $("#mainDiv").load("./gameList.html");
+    let gfilter = 'rpg';
+    let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
+    sendHTTPRequest(url, "", HTTTPMethods.get, () => {
+        console.log("Loaded");
+    }, () => {
+        console.error("Something Went Wrong");
+    }, "");
+});
 
-$("#mainDiv").on('click', "#newArticleBtn", () => {
-    $("#mainDiv").load("./newArticle.html");
+$("#mainDiv").on('click', "#mobaGamesLink", () => {
+    $("#mainDiv").load("./gameList.html");
+    let gfilter = 'moba';
+    let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
     sendHTTPRequest(url, "", HTTTPMethods.get, () => {
         console.log("Loaded");
     }, () => {
         console.error("Something Went Wrong");
     }, "");
 })
+
+$("#mainDiv").on('click', "#fpsGamesLink", () => {
+    $("#mainDiv").load("./gameList.html");
+    let gfilter = 'fps';
+    let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
+    sendHTTPRequest(url, "", HTTTPMethods.get, () => {
+        console.log("Loaded");
+    }, () => {
+        console.error("Something Went Wrong");
+    }, "");
+});
+
+$("#mainDiv").on('click', "#newArticleBtn", () => {
+    $("#mainDiv").load("./newArticle.html");
+})
+
