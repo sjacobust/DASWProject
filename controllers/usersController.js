@@ -50,7 +50,7 @@ class UsersController {
         let updatee = {
             nombre: user.nombre,
             apellidos: user.apellidos,
-            username: docs.docs[0].username,
+            username: user.username,
             email: user.email,
             password: user.password,
             fecha: user.fecha,

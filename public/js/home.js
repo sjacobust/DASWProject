@@ -82,12 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
-
-});
-
-document.addEventListener('DOMContentLoaded', () => {
     $('#modalLogin').on('show.bs.modal', function (event) {
-        $('#loginBtn').on("click", () => {
+        console.log("Opened Modal");
+        $('#loginBtn').click(() => {
+            console.log("clicked");
             const payload = JSON.stringify({
                 'email': $('#emailId').val(),
                 'password': $('#passwordID').val(),
@@ -100,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let url = APIURL + "/articles";
                 sendHTTPRequest(url, "", HTTTPMethods.get, () => {
                     console.log("Loaded");
+                    $('#modalLogin').modal('toggle');
                 }, () => {
                     console.error("Something Went Wrong");
                 }, "");
@@ -117,12 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
-
-
-
-
-
-
 
 $(document).ready(function () {
 
@@ -242,10 +235,5 @@ $("#mainDiv").on('click', "#fpsGamesLink", () => {
 
 $("#mainDiv").on('click', "#newArticleBtn", () => {
     $("#mainDiv").load("./newArticle.html");
-    sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-        console.log("Loaded");
-    }, () => {
-        console.error("Something Went Wrong");
-    }, "");
 })
 
