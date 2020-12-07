@@ -209,3 +209,12 @@ $("#mainDiv").on('click', () => {
         }, "");
     });
 })
+
+$("#mainDiv").on('click', "#newArticleButton", () => {
+    $("#mainDiv").load("./newArticle.html");
+    sendHTTPRequest(url, "", HTTTPMethods.get, () => {
+        console.log("Loaded");
+    }, () => {
+        console.error("Something Went Wrong");
+    }, "");
+})
