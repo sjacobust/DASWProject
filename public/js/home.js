@@ -210,7 +210,7 @@ $("#mainDiv").on('click', () => {
     });
 })
 
-$("#mainDiv").on('click', "#newArticleButton", () => {
+$("#mainDiv").on('click', "#newArticleBtn", () => {
     $("#mainDiv").load("./newArticle.html");
     sendHTTPRequest(url, "", HTTTPMethods.get, () => {
         console.log("Loaded");
