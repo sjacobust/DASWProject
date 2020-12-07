@@ -13,6 +13,7 @@ const SECRET_JWT = process.env.SECRET_JWT || 'h@la123Cr@yola';
 const genreRouter = require('./routes/genreRoutes');
 const gameListRouter = require('./routes/gameListRoutes');
 const userRouter = require('./routes/usersRoutes');
+const articleRouter = require('./routes/articlesRouters')
 
 // Controllers
 
@@ -26,7 +27,8 @@ app.use(cors());
 
 // Routes 
 
-app.use('/api/users', userRouter)
+app.use('/api/users', userRouter);
+app.use('api/articles', articleRouter)
 app.use('/api/genreList', genreRouter);
 app.use('/api/gameList', gameListRouter);
 
@@ -54,6 +56,34 @@ async function authentication(req, res, next) {
   }
 
 }
+
+
+app.post('/api/login', async (req, res) => {
+  if (req.body.email && req.body.password) {
+      let uctrl = new UsersController();
+      //let pass = bcryp.hashSync(req.body.password,5);
+      let user = await uctrl.getUserByCredentials(req.body.email, req.body.password);
+      //user.password === pass
+      if (user) {
+          // let token = randomize('Aa0','10')+"-"+user.uid;
+          console.log(user);
+          let token = jwt.sign({
+              "uid": user.uid
+          }, SECRET_JWT);
+          user.token = token;
+          uctrl.updateUser(user, (user) => {
+              res.status(200).send({
+                  "token": token
+              });
+          });
+
+      } else {
+          res.status(401).send('Wrong credentials');
+      }
+  } else {
+      res.status(400).send('Missing user/pass');
+  }
+});
 
 
 app.listen(PORT, () => {

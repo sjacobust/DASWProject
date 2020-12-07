@@ -50,9 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'email': $('#registerEmail').val(),
                 'password': $('#registerPassword').val(),
                 'fecha': $('#registerDate').val(),
-            });
-            console.log(payload)
-            
+            });            
                 let url = APIURL + '/users/register';
                 console.log(url);
                 sendHTTPRequest(url, payload, HTTTPMethods.post, () => {
@@ -65,11 +63,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
+    $('#modalLogin').on('show.bs.modal', function (event) {
+        // console.log(event.relatedTarget);
+        //agrega tu codigo...
+        
+        $('#loginBtn').on("click", () => {
+            const payload = JSON.stringify({
+                'email': $('#registerEmail').val(),
+                'password': $('#registerPassword').val()
+            });            
+                let url = APIURL + '/login';
+                console.log(url);
+                sendHTTPRequest(url, payload, HTTTPMethods.post, () => {
+                    console.log("Bienvenido");
+                    url = APIURL + '/articles';
+                    $("#mainDiv").load("./articleList.html");
+                    sendHTTPRequest()
+                }, () => {
+                    console.error("Usuario no registrado");
+                }, null);
+                
+            
+        })
+
+    });
+
+
 });
 
 
 
 $(document).ready(function () {
+
+    $("#homeLink, #logoLink").on("click", function () {
+        $("#mainDiv").load("./Welcome.html");
+        $("#homeLink").parent().addClass("active");
+        $("#homeLink").parent().siblings().removeClass("active");
+    });
 
     $("#gamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
@@ -79,15 +109,19 @@ $(document).ready(function () {
         }, () => {
             console.error("Something Went Wrong");
         }, "");
+        $("#gamesLink").addClass("active");
+        $("#gamesLink").siblings().removeClass("active");
     });
     $("#genresLink").on("click", function () {
-        $("#mainDiv").load("./genreList.html");
         let url = APIURL+"/genreList";
+        $("#mainDiv").load("./genreList.html");
         sendHTTPRequest(url, "", HTTTPMethods.get, () => {
             console.log("Loaded");
         }, () => {
             console.error("Something Went Wrong");
         }, "");
+        $("#genresLink").addClass("active");
+        $("#genresLink").siblings().removeClass("active");
     });
     $("#rpgGamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
@@ -98,6 +132,8 @@ $(document).ready(function () {
         }, () => {
             console.error("Something Went Wrong");
         }, "");
+        $("#rpgGamesLink").addClass("active");
+        $("#rpgGamesLink").siblings().removeClass("active");
     });
     $("#fpsGamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
@@ -108,6 +144,8 @@ $(document).ready(function () {
         }, () => {
             console.error("Something Went Wrong");
         }, "");
+        $("#fpsGamesLink").addClass("active");
+        $("#fpsGamesLink").siblings().removeClass("active");
     });
     $("#mobaGamesLink").on("click", function () {
         $("#mainDiv").load("./gameList.html");
@@ -118,7 +156,23 @@ $(document).ready(function () {
         }, () => {
             console.error("Something Went Wrong");
         }, "");
+        $("#mobaGamesLink").addClass("active");
+        $("#mobaGamesLink").siblings().removeClass("active");
     });
+    $("#articlesLink").on("click", function () {
+        $("#mainDiv").load("./articleList.html");
+        let gfilter = 'moba';
+        let url = APIURL+"/gameList?page=1&limit=3"+gfilter;
+        sendHTTPRequest(url, "", HTTTPMethods.get, () => {
+            console.log("Loaded");
+        }, () => {
+            console.error("Something Went Wrong");
+        }, "");
+        $("#articlesLink").parent().addClass("active");
+        $("#articlesLink").parent().siblings().removeClass("active");
+    });
+
+
 
 });
 
