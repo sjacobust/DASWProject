@@ -55,8 +55,8 @@ const articleToHTML = (article) => {
                     <td>${article.game}</td>
                     <td>${article.text.substring(0, 10)}</td>
                     <td>${article.published}</td>
-                    <td><button class="btn btn-primary" type="button" id="editBtn">Edit</button></td>
-                    <td><button class="btn btn-danger" type="button" id="deleteBtn">Delete</button></td>
+                    <td><button class="btn btn-primary" type="button" index-db-value="${article.id}" id="editBtn">Edit</button></td>
+                    <td><button class="btn btn-danger" type="button"  index-db-value="${article.id}" id="deleteBtn">Delete</button></td>
                 </tr>
     `
 }
