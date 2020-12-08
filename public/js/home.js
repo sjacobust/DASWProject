@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(url);
             sendHTTPRequest(url, payload, HTTTPMethods.post, (response) => {
                 console.log(`Usuario registrado ${response}`);
-                $("#modalLogin").modal("toggle");
+                $("#modalRegistro").modal("toggle");
             }, (response) => {
                 console.error(`Usuario no registrado ${response}`);
             }, null);
