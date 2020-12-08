@@ -201,7 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let url = APIURL + '/users/register';
             console.log(url);
             sendHTTPRequest(url, payload, HTTTPMethods.post, (response) => {
-                console.log(`Usuario no registrado ${response}`);
+                console.log(`Usuario registrado ${response}`);
+                $("#modalLogin").modal("toggle");
             }, (response) => {
                 console.error(`Usuario no registrado ${response}`);
             }, null);
