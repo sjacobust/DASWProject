@@ -9,15 +9,15 @@ let TOKEN = getTokenValue('token');
 const HTTPStatusCodes = {
     "notFound": {
         "code": 404,
-        "page": "",
+        "page": "./404.html",
     },
     "forbidden": {
         "code": 403,
-        "page": "",
+        "page": "./403.html",
     },
     "unauthorized": {
         "code": 401,
-        "page": "",
+        "page": "./401.html",
     },
 }
 
