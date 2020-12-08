@@ -1,13 +1,12 @@
 'use strict';
 const { log } = require('console');
 const express = require('express');
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const ArticleController = require('../controllers/articlesController');
+const articleCtrl = new ArticleController();
+const UsersController = require('../controllers/usersController');
 const router = express();
-
-
-router.get('/', (req, res) => {
-    res.status(200).send("I'm here");
-})
 
 // router.delete('/:email',(req,res)=>{
 //     if (req.params.email) {
@@ -24,6 +23,56 @@ router.get('/', (req, res) => {
 //         res.status(400).send('missing arguments');
 //     }
 // });
+
+async function authentication(req, res, next) {
+    let xauth = req.get('x-auth-user');
+    if (xauth) {
+        // let id = xauth.split("-").pop();
+        let token = jwt.verify(xauth, SECRET_JWT);
+        let id = token.uid;
+
+        let userctrl = new UsersController();
+        console.log(`${token} ${id}`)
+        try {
+            let user = await userctrl.getUser(id);
+            if (user && user.token === xauth) {
+                next();
+            } else {
+                console.log(` ${user}`);
+                res.status(401).send('Not authorized');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+  
+    } else {
+        res.status(401).send('Not authorized');
+    }
+  
+  }
+
+
+router.post('/new', authentication, (req, res) => {
+    let b = req.body;
+    if (b.title && b.game && b.tags && b.text) {
+        articleCtrl.getUniqueArticle(b.title, b.game, b.tags, (a)=>{
+            console.log(a);
+            if (a) {
+                res.status(400).send('article already exists');
+            } else {
+                articleCtrl.insertArticle(b,(article)=>{
+                    console.log("Article Published");
+                    res.status(201).send(article);
+                });
+            }
+        });
+    } else {
+        res.status(400).send('missing arguments');
+        console.log("Missing arguments");
+        console.log(b);
+
+    }
+});
 
 router.get('/', async (req, res) => {
     let articleCtrl = new ArticleController();
@@ -54,8 +103,9 @@ router.get('/', async (req, res) => {
             return {
                 "title": val.title,
                 "game": val.game,
-                "article": val.article,
-                "tag": val.tags,
+                "text": val.text,
+                "tags": val.tags,
+                "published": val.published,
                 "id": val._id,
                 "rev":val._rev
             }

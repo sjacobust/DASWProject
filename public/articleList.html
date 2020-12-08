@@ -1,47 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Game Wiki | Genres</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
-</head>
-
-<body>
-    
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                <table class="table table-light table-striped table-bordered table-hover">
-                    <thead class="bg-triforce">
-                        <tr>
-                            <th>Article Name</th>
-                            <th>Game</th>
-                            <th>Abstract</th>
-                            <th>Platform</th>
-                            <th>Date Published</th>
-                        </tr>
-                    </thead>
-                    <tbody id="articleTable">
-                        <tr>
-                            <td>Test 1</td>
-                            <td>TesterinoPlays</td>
-                            <td>It's just a Test</td>
-                            <td>TESTDream</td>
-                            <td>01/01/01</td>
-                            
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <button type="button" id="newArticleBtn" class="btn btn-success">New Article</button>
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <table class="table table-light table-striped table-bordered table-hover">
+                <thead class="bg-triforce">
+                    <tr>
+                        <th>Article Name</th>
+                        <th>Game</th>
+                        <th>Abstract</th>
+                        <th>Date Published</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="articleTable">
+                    <tr>
+                        <td>Test 1</td>
+                        <td>TesterinoPlays</td>
+                        <td>It's just a Test</td>
+                        <td>TESTDream</td>
+                        <td>01/01/01</td>
+                        <td><button class="btn btn-primary" type="button" id="editBtn">Edit</button></td>
+                        <td><button class="btn btn-danger" type="button" id="deleteBtn">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</body>
+    <div class="row">
+        <div class="col">
+            <button type="button" id="newArticleBtn" class="btn btn-success">New Article</button>
+        </div>
+        <nav aria-label="Page navigation mb-3 col">
+            <ul class="pagination">
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">Page 1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Page 2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Page 3</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script src="./js/articleList.js"></script>
+<script>
+
+</script>
+
+
 
 </html>

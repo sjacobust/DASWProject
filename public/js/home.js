@@ -5,8 +5,7 @@ const HTTTPMethods = {
     "get": "GET",
     "delete": "DELETE"
 }
-
-
+let TOKEN = getTokenValue('token');
 const HTTPStatusCodes = {
     "notFound": {
         "code": 404,
@@ -22,6 +21,67 @@ const HTTPStatusCodes = {
     },
 }
 
+
+let NAME_FILTER = ''
+    let PAGES = {
+        current : 1,
+        currentIndex:0,
+    };
+let searchBar = document.getElementById('searchBar');
+function getTokenValue(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}
+
+/* * * * * * * * * * * * * * * * * *
+* ARTICLE LIST REQUEST *** START ***
+* * * * * * * * * * * * * * * * * */
+
+const articleToHTML = (article) => {
+    return `
+    <tr>
+                    <td>${article.title}</td>
+                    <td>${article.game}</td>
+                    <td>${article.text.substring(0, 10)}</td>
+                    <td>${article.published}</td>
+                    <td><button class="btn btn-primary" type="button" id="editBtn">Edit</button></td>
+                    <td><button class="btn btn-danger" type="button" id="deleteBtn">Delete</button></td>
+                </tr>
+    `
+}
+
+const articleListToHTML = (list) => {
+    if(list) {
+        $("#articleTable").html(list.map(articleToHTML).join(''));
+    }
+};
+
+
+function getArticlesPage(page, filter) {
+    let articlesURL = APIURL + `/articles?page=${page}&limit=10`+filter;
+    sendHTTPRequest(articlesURL, "", HTTTPMethods.get, (response) => {
+        console.log(`Loaded ${response.status}`);
+        let articleList = JSON.parse(response.data);
+        articleListToHTML(articleList);
+    }, () => {
+        console.error(`Something Went Wrong ${response.data}`);
+    }, "");
+}
+
+/* * * * * * * * * * * * * * * * *
+* ARTICLE LIST REQUEST *** END ***
+* * * * * * * * * * * * * * * * * */
 
 const APIURL = window.location.protocol + '//' + window.location.host + '/api';
 
@@ -83,9 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     $('#modalLogin').on('show.bs.modal', function (event) {
-        console.log("Opened Modal");
         $('#loginBtn').click(() => {
-            console.log("clicked");
             const payload = JSON.stringify({
                 'email': $('#emailId').val(),
                 'password': $('#passwordID').val(),
@@ -95,16 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
             sendHTTPRequest(url, payload, HTTTPMethods.post, (response) => {
                 console.log(`Bienvenido`);
                 $("#mainDiv").load("./articleList.html");
-                let url = APIURL + "/articles";
-                sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-                    console.log("Loaded");
-                    $('#modalLogin').modal('toggle');
-                }, () => {
-                    console.error("Something Went Wrong");
-                }, "");
-
                 $("#articlesLink").parent().addClass("active");
                 $("#articlesLink").parent().siblings().removeClass("active");
+                $("#modalLogin").modal("toggle");
 
             }, (response) => {
                 console.error(`Usuario no registrado ${response}`);
@@ -147,93 +198,35 @@ $(document).ready(function () {
         $("#genresLink").addClass("active");
         $("#genresLink").siblings().removeClass("active");
     });
-    $("#rpgGamesLink").on("click", function () {
-        $("#mainDiv").load("./gameList.html");
-        let gfilter = 'rpg';
-        let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
-        sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-            console.log("Loaded");
-        }, () => {
-            console.error("Something Went Wrong");
-        }, "");
-        $("#rpgGamesLink").addClass("active");
-        $("#rpgGamesLink").siblings().removeClass("active");
-    });
-    $("#fpsGamesLink").on("click", function () {
-        $("#mainDiv").load("./gameList.html");
-        let gfilter = 'fps';
-        let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
-        sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-            console.log("Loaded");
-        }, () => {
-            console.error("Something Went Wrong");
-        }, "");
-        $("#fpsGamesLink").addClass("active");
-        $("#fpsGamesLink").siblings().removeClass("active");
-    });
-    $("#mobaGamesLink").on("click", function () {
-        $("#mainDiv").load("./gameList.html");
-        let gfilter = 'moba';
-        let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
-        sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-            console.log("Loaded");
-        }, () => {
-            console.error("Something Went Wrong");
-        }, "");
-        $("#mobaGamesLink").addClass("active");
-        $("#mobaGamesLink").siblings().removeClass("active");
-    });
     $("#articlesLink").on("click", function () {
         $("#mainDiv").load("./articleList.html");
-        let url = APIURL + "/articles";
-        sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-            console.log("Loaded");
-        }, () => {
-            console.error("Something Went Wrong");
-        }, "");
-        $("#articlesLink").parent().addClass("active");
-        $("#articlesLink").parent().siblings().removeClass("active");
     });
 
-
-
-});
-
-
-$("#mainDiv").on('click', "#rpgGamesLink", () => {
-    $("#mainDiv").load("./gameList.html");
-    let gfilter = 'rpg';
-    let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
-    sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-        console.log("Loaded");
-    }, () => {
-        console.error("Something Went Wrong");
-    }, "");
-});
-
-$("#mainDiv").on('click', "#mobaGamesLink", () => {
-    $("#mainDiv").load("./gameList.html");
-    let gfilter = 'moba';
-    let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
-    sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-        console.log("Loaded");
-    }, () => {
-        console.error("Something Went Wrong");
-    }, "");
-})
-
-$("#mainDiv").on('click', "#fpsGamesLink", () => {
-    $("#mainDiv").load("./gameList.html");
-    let gfilter = 'fps';
-    let url = APIURL + "/gameList?page=1&limit=3" + gfilter;
-    sendHTTPRequest(url, "", HTTTPMethods.get, () => {
-        console.log("Loaded");
-    }, () => {
-        console.error("Something Went Wrong");
-    }, "");
 });
 
 $("#mainDiv").on('click', "#newArticleBtn", () => {
     $("#mainDiv").load("./newArticle.html");
+});
+
+$("#mainDiv").on('click', "#editBtn", () => {
+    console.log("I was clicked, prepared to be edited");
+    let $row = $(this).closest("tr"), // Finds the closest row <tr> 
+        $tds = $row.find("td"); // Finds all children <td> elements
+
+    $.each($tds, function () { // Visits every single <td> element
+        console.log($(this).text()); // Prints out the text within the <td>
+    });
 })
+
+$("#mainDiv").on('click', "#deleteBtn", () => {
+    console.log("I was clicked, prepared to be deleted");
+    let $row = $(this).closest("tr"), // Finds the closest row <tr> 
+        $tds = $row.find("td"); // Finds all children <td> elements
+
+    $.each($tds, function () { // Visits every single <td> element
+        console.log($(this).text()); // Prints out the text within the <td>
+    });
+})
+
+
 
