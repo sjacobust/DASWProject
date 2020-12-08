@@ -201,7 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let url = APIURL + '/users/register';
             console.log(url);
             sendHTTPRequest(url, payload, HTTTPMethods.post, (response) => {
-                console.log(`Usuario no registrado ${response}`);
+                console.log(`Usuario registrado ${response}`);
+                $("#modalLogin").modal("toggle");
             }, (response) => {
                 console.error(`Usuario no registrado ${response}`);
             }, null);
@@ -294,10 +295,11 @@ $("#mainDiv").on('click', "#editBtn", () => {
 
 $("#mainDiv").on('click', "#deleteBtn", () => {
     console.log("I was clicked, prepared to be deleted");
-    let $row = $(this).closest("tr"), // Finds the closest row <tr> 
-        $tds = $row.find("td"); // Finds all children <td> elements
-
-    $.each($tds, function () { // Visits every single <td> element
-        console.log($(this).text()); // Prints out the text within the <td>
-    });
+    let url = APIURL + "/articles";
+    let id = JSON.stringify({ "id": $("#deleteBtn").attr("index-db-value") });
+    sendHTTPRequest(url, id, HTTTPMethods.delete, () => {
+        console.log("Deleted");
+    }, () => {
+        console.error("Something Went Wrong");
+    }, "");
 })
