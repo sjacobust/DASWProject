@@ -23,30 +23,31 @@ const HTTPStatusCodes = {
 
 
 let NAME_FILTER = ''
-    let PAGES = {
-        current : 1,
-        currentIndex:0,
-    };
+let PAGES = {
+    current: 1,
+    currentIndex: 0,
+};
 let searchBar = document.getElementById('searchBar');
+
 function getTokenValue(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
     return "";
 }
 
 /* * * * * * * * * * * * * * * * * *
-* ARTICLE LIST REQUEST *** START ***
-* * * * * * * * * * * * * * * * * */
+ * ARTICLE LIST REQUEST *** START ***
+ * * * * * * * * * * * * * * * * * */
 
 const articleToHTML = (article) => {
     return `
@@ -62,14 +63,14 @@ const articleToHTML = (article) => {
 }
 
 const articleListToHTML = (list) => {
-    if(list) {
+    if (list) {
         $("#articleTable").html(list.map(articleToHTML).join(''));
     }
 };
 
 
 function getArticlesPage(page, filter) {
-    let articlesURL = APIURL + `/articles?page=${page}&limit=10`+filter;
+    let articlesURL = APIURL + `/articles?page=${page}&limit=10` + filter;
     sendHTTPRequest(articlesURL, "", HTTTPMethods.get, (response) => {
         console.log(`Loaded ${response.status}`);
         let articleList = JSON.parse(response.data);
@@ -80,8 +81,75 @@ function getArticlesPage(page, filter) {
 }
 
 /* * * * * * * * * * * * * * * * *
-* ARTICLE LIST REQUEST *** END ***
-* * * * * * * * * * * * * * * * * */
+ * ARTICLE LIST REQUEST *** END ***
+ * * * * * * * * * * * * * * * * * */
+
+/* * * * * * * * * * * * * * * * * *
+ * GAME LIST REQUEST *** START ***
+ * * * * * * * * * * * * * * * * * */
+
+const gameToOption = (game) => {
+    return `<option value="${game.game}"> ${game.game} </option>`;
+}
+
+const gameListToOption = (list) => {
+    if (list) {
+        $("#articleGame").html(list.map(gameToOption).join(''));
+    }
+};
+
+
+function getGamesToOption() {
+    let gamesURL = APIURL + `/games`;
+    sendHTTPRequest(gamesURL, "", HTTTPMethods.get, (response) => {
+        console.log(`Loaded ${response.status}`);
+        let gamelist = JSON.parse(response.data);
+        gameListToOption(gamelist);
+    }, () => {
+        console.error(`Something Went Wrong ${response.data}`);
+    }, "");
+}
+
+const gameToCard = (game) => {
+    return `<div class="card mb-3 bg-soothing-white" style="max-width: 540px;">
+    <div class="row no-gutters">
+        <div class="col-md-4 align-items-center">
+            <img src="${game.image_url}"
+                class="card-img" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">${game.game}</h5>
+                <p class="card-text">${game.genre}</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins
+                        ago</small></p>
+            </div>
+        </div>
+    </div>
+</div>`
+}
+
+const gameListToCard = (list) => {
+    if (list) {
+        $("#gamesCards").html(list.map(gameToCard).join(''));
+    }
+};
+
+
+function getGamesCards() {
+    let gamesURL = APIURL + `/games`;
+    sendHTTPRequest(gamesURL, "", HTTTPMethods.get, (response) => {
+        console.log(`Loaded ${response.status}`);
+        let gamelist = JSON.parse(response.data);
+        gameListToCard(gamelist);
+    }, () => {
+        console.error(`Something Went Wrong ${response.data}`);
+    }, "");
+}
+
+/* * * * * * * * * * * * * * * * *
+ * GAME LIST REQUEST *** END ***
+ * * * * * * * * * * * * * * * * * */
 
 const APIURL = window.location.protocol + '//' + window.location.host + '/api';
 
@@ -206,6 +274,12 @@ $(document).ready(function () {
 
 $("#mainDiv").on('click', "#newArticleBtn", () => {
     $("#mainDiv").load("./newArticle.html");
+    let url = APIURL + "/games";
+    sendHTTPRequest(url, "", HTTTPMethods.get, () => {
+        console.log("Loaded");
+    }, () => {
+        console.error("Something Went Wrong");
+    }, "");
 });
 
 $("#mainDiv").on('click', "#editBtn", () => {
@@ -227,6 +301,3 @@ $("#mainDiv").on('click', "#deleteBtn", () => {
         console.log($(this).text()); // Prints out the text within the <td>
     });
 })
-
-
-

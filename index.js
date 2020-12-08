@@ -59,7 +59,7 @@ async function authentication(req, res, next) {
 app.use('/api/users', userRouter);
 app.use('/api/articles', articleRouter);
 app.use('/api/genreList', genreRouter);
-app.use('/api/gameList', gameListRouter);
+app.use('/api/games', gameListRouter);
 
 app.post('/api/login', async (req, res) => {
   if (req.body.email && req.body.password) {
