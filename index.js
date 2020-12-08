@@ -4,6 +4,8 @@ const express = require('express')
 const app = express();
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+
 
 const PORT = process.env.PORT || 3000;
 const SECRET_JWT = process.env.SECRET_JWT || 'h@la123Cr@yola';
@@ -21,18 +23,13 @@ const UsersController = require('./controllers/usersController');
 
 // static files for use in page
 app.use(express.static(__dirname +'/public'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors());
+app.use(cookieParser());
 
-// Routes 
-
-app.use('/api/users', userRouter);
-app.use('/api/articles', articleRouter)
-app.use('/api/genreList', genreRouter);
-app.use('/api/gameList', gameListRouter);
-
-
+// Auth
 async function authentication(req, res, next) {
   let xauth = req.get('x-auth-user');
   if (xauth) {
@@ -57,6 +54,12 @@ async function authentication(req, res, next) {
 
 }
 
+// Routes 
+
+app.use('/api/users', userRouter);
+app.use('/api/articles', articleRouter);
+app.use('/api/genreList', genreRouter);
+app.use('/api/gameList', gameListRouter);
 
 app.post('/api/login', async (req, res) => {
   if (req.body.email && req.body.password) {
@@ -72,10 +75,19 @@ app.post('/api/login', async (req, res) => {
           }, SECRET_JWT);
           user.token = token;
           uctrl.updateUser(user, (user) => {
-              res.status(200).send({
-                  "token": token
-              });
+              if(req.cookies.token) {
+                  console.log('cookie exists');
+                  res.status(200).send("Already Logged in");
+              } else {
+                  res.cookie('token', token, { maxAge: 900000, httpOnly: true })
+                  console.log('cookie created successfully');
+                res.status(200).send({
+                    "token": token
+                });
+              }
+              
           });
+
 
       } else {
           res.status(401).send('Wrong credentials');

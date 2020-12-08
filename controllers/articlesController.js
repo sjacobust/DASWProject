@@ -38,7 +38,8 @@ class ArticlesController {
             title: article.title,
             body: article.body,
             tags: article.tags,
-            game: article.game
+            game: article.game,
+            text: article.text
         }
         this.getArticle(updatee._id, (foundArticle)=>{
             if(foundArticle){
@@ -58,6 +59,33 @@ class ArticlesController {
                 cbOk();
             }
         })
+    }
+    getUniqueArticle(title,game,tags,cbOk){
+        const q = {
+            selector:{
+                title:{"$eq":title},
+                game:{"$eq":game},
+                tags:{"$eq":tags}
+            }
+        }
+        ARTICLES_CLOUDANT_DB.find(q).then((docs)=>{
+            console.log(docs);
+            if(docs.docs.length>0){
+                //regresar resultado..
+                let article = {
+                    title: docs.docs[0].nombre,
+                    game: docs.docs[0].apellidos,
+                    text: docs.docs[0].username,
+                    tags: docs.docs[0].tags,
+                    published: docs.docs[0].published,
+                    uid: docs.docs[0]._id,
+                    rev: docs.docs[0]._rev
+                }
+                cbOk(article);
+            }else{
+                cbOk();
+            }
+        });
     }
 
     deleteArticle(article,cbOk){
