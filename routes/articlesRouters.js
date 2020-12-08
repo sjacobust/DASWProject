@@ -54,7 +54,7 @@ async function authentication(req, res, next) {
   }
 
 
-router.post('/new', authentication, (req, res) => {
+router.post('/new', (req, res) => {
     let b = req.body;
     if (b.title && b.game && b.tags && b.text) {
         articleCtrl.getUniqueArticle(b.title, b.game, b.tags, (a)=>{
