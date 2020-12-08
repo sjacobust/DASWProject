@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const ArticleController = require('../controllers/articlesController');
 const articleCtrl = new ArticleController();
 const UsersController = require('../controllers/usersController');
+const GamesController = require('../controllers/gamesController');
+const gameCtrl = new GamesController();
 const router = express();
 
 // router.delete('/:email',(req,res)=>{
@@ -53,6 +55,50 @@ async function authentication(req, res, next) {
 
 
 router.post('/new', authentication, (req, res) => {
+    let b = req.body;
+    if (b.title && b.game && b.tags && b.text) {
+        articleCtrl.getUniqueArticle(b.title, b.game, b.tags, (a)=>{
+            console.log(a);
+            if (a) {
+                res.status(400).send('article already exists');
+            } else {
+                articleCtrl.insertArticle(b,(article)=>{
+                    console.log("Article Published");
+                    res.status(201).send(article);
+                });
+            }
+        });
+    } else {
+        res.status(400).send('missing arguments');
+        console.log("Missing arguments");
+        console.log(b);
+
+    }
+});
+
+router.get('/:id', (req, res) => {
+    let b = req.body;
+    if (b.title && b.game && b.tags && b.text) {
+        articleCtrl.getUniqueArticle(b.title, b.game, b.tags, (a)=>{
+            console.log(a);
+            if (a) {
+                res.status(400).send('article already exists');
+            } else {
+                articleCtrl.insertArticle(b,(article)=>{
+                    console.log("Article Published");
+                    res.status(201).send(article);
+                });
+            }
+        });
+    } else {
+        res.status(400).send('missing arguments');
+        console.log("Missing arguments");
+        console.log(b);
+
+    }
+});
+
+router.get('/edit/:id', (req, res) => {
     let b = req.body;
     if (b.title && b.game && b.tags && b.text) {
         articleCtrl.getUniqueArticle(b.title, b.game, b.tags, (a)=>{

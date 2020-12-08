@@ -22,3 +22,4 @@ $("#mainDiv").on("click", "#publishBtn", () => {
     }, TOKEN);
     $("#mainDiv").load('./articleList.html');
 });
+
