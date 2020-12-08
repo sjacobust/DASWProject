@@ -47,7 +47,7 @@ class ArticlesController {
                     console.log(addedEntry);
                     if(addedEntry.ok){
                         article.rev= addedEntry.rev;
-                        article.uid = addedEntry.id;
+                        article.id = addedEntry.id;
                         cbOk(article);
                     }else{
                         cbOk();
@@ -78,7 +78,7 @@ class ArticlesController {
                     text: docs.docs[0].username,
                     tags: docs.docs[0].tags,
                     published: docs.docs[0].published,
-                    uid: docs.docs[0]._id,
+                    id: docs.docs[0]._id,
                     rev: docs.docs[0]._rev
                 }
                 cbOk(article);

@@ -76,6 +76,21 @@ router.post('/new', (req, res) => {
     }
 });
 
+router.delete('/', (req, res) => {
+    let b = req.body;
+    if (b.id) {
+        let article = articleCtrl.getArticle(b.id);
+        articleCtrl.deleteArticle(article, () => {
+            res.status(202).send("Article Deleted");
+        });
+    } else {
+        res.status(400).send('missing arguments');
+        console.log("Missing arguments");
+        console.log(b);
+
+    }
+});
+
 router.get('/:id', (req, res) => {
     let b = req.body;
     if (b.title && b.game && b.tags && b.text) {

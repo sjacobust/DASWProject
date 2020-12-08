@@ -294,10 +294,11 @@ $("#mainDiv").on('click', "#editBtn", () => {
 
 $("#mainDiv").on('click', "#deleteBtn", () => {
     console.log("I was clicked, prepared to be deleted");
-    let $row = $(this).closest("tr"), // Finds the closest row <tr> 
-        $tds = $row.find("td"); // Finds all children <td> elements
-
-    $.each($tds, function () { // Visits every single <td> element
-        console.log($(this).text()); // Prints out the text within the <td>
-    });
+    let url = APIURL + "/articles";
+    let id = JSON.stringify({ "id": $("#deleteBtn").attr("index-db-value") });
+    sendHTTPRequest(url, id, HTTTPMethods.delete, () => {
+        console.log("Deleted");
+    }, () => {
+        console.error("Something Went Wrong");
+    }, "");
 })
